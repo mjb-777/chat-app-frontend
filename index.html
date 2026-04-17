@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Messages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ════════════════ AUTH SCREENS ════════════════ -->
+<div id="auth-screen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <h1 class="auth-title">Messages</h1>
+
+    <!-- Tab buttons -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Sign In</button>
+      <button class="auth-tab" data-tab="signup">Sign Up</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="tab-login" class="auth-form active">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••"/>
+      </div>
+      <div id="login-error" class="form-error"></div>
+      <button class="btn-primary" id="login-btn">Sign In</button>
+    </div>
+
+    <!-- SIGNUP -->
+    <div id="tab-signup" class="auth-form">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="signup-name" placeholder="Alice Johnson"/>
+      </div>
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="signup-username" placeholder="alicejohnson"/>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="signup-password" placeholder="••••••••"/>
+      </div>
+      <div id="signup-error" class="form-error"></div>
+      <button class="btn-primary" id="signup-btn">Send OTP</button>
+    </div>
+
+    <!-- OTP VERIFY -->
+    <div id="tab-otp" class="auth-form">
+      <p class="otp-hint">Enter the 6-digit code sent to <strong id="otp-email-label"></strong></p>
+      <div class="field">
+        <label>OTP Code</label>
+        <input type="text" id="otp-input" placeholder="123456" maxlength="6"/>
+      </div>
+      <div id="otp-error" class="form-error"></div>
+      <button class="btn-primary" id="otp-btn">Verify & Create Account</button>
+      <button class="btn-ghost" id="otp-back-btn">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ APP SHELL ════════════════ -->
+<div id="app-screen" class="app-screen hidden">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>Messages</h1>
+      <div class="sidebar-header-actions">
+        <button class="icon-btn" id="search-toggle-btn" title="Search">
+          <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="icon-btn" id="logout-btn" title="Logout">
+          <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="search-wrap" id="search-wrap" style="display:none">
+      <div class="search-box">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="search-input" placeholder="Search conversations…"/>
+      </div>
+    </div>
+
+    <div class="contact-list" id="contact-list">
+      <div class="list-spinner" id="list-spinner">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <!-- Add new chat popup -->
+    <div class="add-popup" id="add-popup">
+      <input type="text" id="new-chat-input" placeholder="Enter username…" maxlength="40"/>
+      <button class="add-btn" id="add-chat-btn">Add</button>
+      <button class="close-btn" id="close-popup-btn">×</button>
+    </div>
+
+    <button class="fab" id="fab-btn" title="New conversation">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </div>
+
+  <!-- RESIZER -->
+  <div class="resizer" id="resizer"></div>
+
+  <!-- CHAT PANEL -->
+  <div class="chat-panel" id="chat-panel">
+    <div class="empty-state" id="empty-state">
+      <div class="empty-icon">
+        <svg width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h2>Select a conversation</h2>
+      <p>Choose from your chats on the left</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════ CALL OVERLAY ════════════════ -->
+<div class="call-overlay hidden" id="call-overlay">
+  <div class="call-box">
+    <!-- incoming ring -->
+    <div class="call-section" id="call-incoming">
+      <div class="call-avatar" id="call-avatar-in"></div>
+      <div class="call-name" id="call-name-in"></div>
+      <div class="call-subtitle" id="call-type-label">Incoming audio call</div>
+      <div class="call-actions">
+        <button class="call-btn decline" id="call-decline-btn" title="Decline">
+          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M23.36 14.64a15.73 15.73 0 0 0-4.95-1.08 1 1 0 0 0-.95.67l-1.37 3.41a15.09 15.09 0 0 1-6.16-6.16l3.41-1.37A1 1 0 0 0 14 9.07a15.73 15.73 0 0 0-1.08-4.95A1 1 0 0 0 12 3.5H4.5A1 1 0 0 0 3.5 4.5C3.5 14.43 9.57 22.5 20.5 22.5a1 1 0 0 0 1-1V14a1 1 0 0 0-.14-.36z"/></svg>
+        </button>
+        <button class="call-btn accept" id="call-accept-btn" title="Accept">
+          <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.47 11.47 0 0 0 3.58.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.58a1 1 0 0 1-.25 1.01z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- active call -->
+    <div class="call-section hidden" id="call-active">
+      <div class="call-avatar" id="call-avatar-act"></div>
+      <div class="call-name" id="call-name-act"></div>
+      <div class="call-timer" id="call-timer">00:00</div>
+      <video id="remote-video" class="call-video hidden" autoplay playsinline></video>
+      <video id="local-video"  class="call-video local hidden" autoplay playsinline muted></video>
+      <div class="call-controls">
+        <button class="ctrl-btn" id="mute-btn" title="Mute">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+        </button>
+        <button class="ctrl-btn" id="speaker-btn" title="Speaker">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        </button>
+        <button class="ctrl-btn danger" id="end-call-btn" title="End call">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.36 14.64a15.73 15.73 0 0 0-4.95-1.08 1 1 0 0 0-.95.67l-1.37 3.41a15.09 15.09 0 0 1-6.16-6.16l3.41-1.37A1 1 0 0 0 14 9.07a15.73 15.73 0 0 0-1.08-4.95A1 1 0 0 0 12 3.5H4.5A1 1 0 0 0 3.5 4.5C3.5 14.43 9.57 22.5 20.5 22.5a1 1 0 0 0 1-1V14a1 1 0 0 0-.14-.36z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Global dropdown -->
+<div class="dropdown" id="dropdown"></div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
