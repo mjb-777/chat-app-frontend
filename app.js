@@ -2,7 +2,7 @@
    CONFIG
 ═══════════════════════════════════════════════════════════════════════════ */
 const API  = 'https://chat-app-production-c85d.up.railway.app';  // ← change if your server is elsewhere
-const WS   = 'ws://chat-app-production-c85d.up.railway.app';
+const WS   = 'wss://chat-app-production-c85d.up.railway.app';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    UTILITIES
