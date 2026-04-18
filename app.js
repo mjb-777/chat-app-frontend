@@ -11,9 +11,16 @@ const $  = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const ini = n => n.trim().split(/\s+/).map(p=>p[0]).join('').slice(0,2).toUpperCase();
 const col = n => ['av-0','av-1','av-2','av-3','av-4','av-5','av-6','av-7'][n.charCodeAt(0)%8];
-const fmtTime = iso => new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+const fmtTime = iso => {
+  if (!iso) return '';
+  // Ensure the string is treated as UTC on all browsers (mobile Safari needs explicit Z or +00:00)
+  const s = iso.endsWith('Z') || iso.includes('+') ? iso : iso + 'Z';
+  return new Date(s).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+};
 const fmtDate = iso => {
-  const d = new Date(iso), now = new Date();
+  if (!iso) return '';
+  const s = iso.endsWith('Z') || iso.includes('+') ? iso : iso + 'Z';
+  const d = new Date(s), now = new Date();
   if (d.toDateString()===now.toDateString()) return 'Today';
   const yd = new Date(now); yd.setDate(yd.getDate()-1);
   if (d.toDateString()===yd.toDateString()) return 'Yesterday';
