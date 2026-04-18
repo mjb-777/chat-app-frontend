@@ -354,7 +354,9 @@ html, body {
 /* ─── CHAT PANEL ─────────────────────────────────────────────────────────── */
 .chat-panel {
   flex: 1; display: flex; flex-direction: column;
-  height: 100vh; background: var(--bg); min-width: 0;
+  height: 100vh;
+  height: 100dvh; /* dynamic viewport height — shrinks when keyboard appears */
+  background: var(--bg); min-width: 0;
 }
 
 .empty-state {
@@ -489,8 +491,11 @@ html, body {
 /* input bar */
 .input-bar {
   display: flex; align-items: flex-end; gap: 10px;
-  padding: 13px 18px; border-top: 1px solid var(--border);
+  padding: 13px 18px;
+  padding-bottom: calc(13px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--border);
   background: var(--surface); flex-shrink: 0;
+  position: sticky; bottom: 0; z-index: 5;
 }
 .msg-input {
   flex: 1; background: var(--surface3); border: 1px solid var(--border);
@@ -672,19 +677,39 @@ html, body {
 /* ─── MOBILE ─────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .resizer { display: none !important; }
+
+  .app-screen {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
   .sidebar {
     width: 100vw !important; min-width: 100vw !important; max-width: 100vw !important;
-    position: fixed; top: 0; left: 0; z-index: 20; height: 100vh;
+    position: fixed; top: 0; left: 0; z-index: 20;
+    height: 100dvh;
     transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
   }
   .sidebar.slide-out { transform: translateX(-100%); }
+
   .chat-panel {
     position: fixed; top: 0; left: 0;
-    width: 100vw; height: 100vh; z-index: 10;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 10;
     transform: translateX(100%);
     transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    overflow: hidden;
   }
   .chat-panel.slide-in { transform: translateX(0); }
+
+  .messages-wrap {
+    /* allow messages area to shrink when keyboard opens */
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .back-btn { display: flex !important; }
   .call-video { max-height: 50vh; }
 }
