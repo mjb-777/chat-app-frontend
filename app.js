@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    CONFIG
 ═══════════════════════════════════════════════════════════════════════════ */
-const API  = 'https://chat-app-production-286c.up.railway.app';  // ← change if your server is elsewhere
-const WS   = 'wss://chat-app-production-286c.up.railway.app';
+const API  = 'https://chat-app-production-e68d.up.railway.app';  // ← change if your server is elsewhere
+const WS   = 'wss://chat-app-production-e68d.up.railway.app';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    UTILITIES
